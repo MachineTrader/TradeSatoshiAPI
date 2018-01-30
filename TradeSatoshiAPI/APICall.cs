@@ -1,6 +1,9 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace TradeSatoshiAPI
@@ -120,6 +123,64 @@ namespace TradeSatoshiAPI
                 {
                     throw e;
                 }
+            }
+        }
+        #endregion
+
+        #region Private API
+        public static async Task<GetBalanceReturn> GetBalance(string Currency)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    string uri = "https://tradesatoshi.com/api/private/getbalance";
+                    string nonce = Guid.NewGuid().ToString();
+                    JObject post_params = new JObject();
+                    post_params.Add("Currency", Currency);
+                    string signature = GetSignature(uri, nonce, JsonConvert.SerializeObject(post_params)).Result;
+                    string authenticationString = "Basic " + GlobalSettings.API_Key + ":" + signature + ":" + nonce;
+                    client.DefaultRequestHeaders.Add("Authentication", authenticationString);
+                    return JsonConvert.DeserializeObject<GetBalanceReturn>(await client.PostAsync(uri, new StringContent(JsonConvert.SerializeObject(post_params), Encoding.UTF8, "application/json")).Result.Content.ReadAsStringAsync());
+                }
+                catch(Exception e) { throw e; };
+            }
+        }
+
+        public static async Task<GetBalancesReturn> GetBalances()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    string uri = "https://tradesatoshi.com/api/private/getbalance";
+                    string nonce = Guid.NewGuid().ToString();
+                    string signature = GetSignature(uri, nonce).Result;
+                    string authenticationString = "Basic " + GlobalSettings.API_Key + ":" + signature + ":" + nonce;
+                    client.DefaultRequestHeaders.Add("Authentication", authenticationString);
+                    return JsonConvert.DeserializeObject<GetBalancesReturn>(await client.PostAsync(uri, null).Result.Content.ReadAsStringAsync());
+                }
+                catch (Exception e) { throw e; };
+            }
+        }
+
+        private static Task<string> GetSignature(string uri, string nonce, string post_params = null)
+        {
+            string signature = "";
+            if (post_params != null)
+            {
+                post_params = Convert.ToBase64String(Encoding.UTF8.GetBytes(post_params));
+                signature = GlobalSettings.API_Key + "POST" + uri + nonce + post_params;
+            }
+            else
+            {
+                signature = GlobalSettings.API_Key + "POST" + uri + nonce;
+            }
+            byte[] messageBytes = Encoding.UTF8.GetBytes(signature);
+            using (HMACSHA512 _object = new HMACSHA512(GlobalSettings.Secret_Key))
+            {
+                byte[] hashmessage = _object.ComputeHash(messageBytes);
+                return Task.FromResult(Convert.ToBase64String(hashmessage));
             }
         }
         #endregion
