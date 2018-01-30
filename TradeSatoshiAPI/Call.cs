@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace TradeSatoshiAPI
 {
-    public class Class1
+    public class Call
     {
+        public static 
     }
 }
