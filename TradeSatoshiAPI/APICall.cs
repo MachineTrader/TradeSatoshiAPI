@@ -158,7 +158,8 @@ namespace TradeSatoshiAPI
                     string signature = GetSignature(uri, nonce).Result;
                     string authenticationString = "Basic " + GlobalSettings.API_Key + ":" + signature + ":" + nonce;
                     client.DefaultRequestHeaders.Add("Authentication", authenticationString);
-                    return JsonConvert.DeserializeObject<GetBalancesReturn>(await client.PostAsync(uri, null).Result.Content.ReadAsStringAsync());
+                    string result = await client.PostAsync(uri, null).Result.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<GetBalancesReturn>(result);
                 }
                 catch (Exception e) { throw e; };
             }

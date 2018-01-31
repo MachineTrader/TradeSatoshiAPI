@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradeSatoshiAPI", "TradeSatoshiAPI\TradeSatoshiAPI.csproj", "{77F4CC9D-E56D-42CE-8295-A9569C2B343D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject", "TestProject\TestProject.csproj", "{32080801-952B-4B32-B45C-67BEAB56A061}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{77F4CC9D-E56D-42CE-8295-A9569C2B343D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77F4CC9D-E56D-42CE-8295-A9569C2B343D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77F4CC9D-E56D-42CE-8295-A9569C2B343D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32080801-952B-4B32-B45C-67BEAB56A061}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32080801-952B-4B32-B45C-67BEAB56A061}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32080801-952B-4B32-B45C-67BEAB56A061}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32080801-952B-4B32-B45C-67BEAB56A061}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
