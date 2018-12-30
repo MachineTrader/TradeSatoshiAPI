@@ -153,7 +153,7 @@ namespace TradeSatoshiAPI
             {
                 try
                 {
-                    string uri = "https://tradesatoshi.com/api/private/getbalance";
+                    string uri = "https://tradesatoshi.com/api/private/getbalances";
                     string nonce = Guid.NewGuid().ToString();
                     string signature = GetSignature(uri, nonce).Result;
                     string authenticationString = "Basic " + GlobalSettings.API_Key + ":" + signature + ":" + nonce;
